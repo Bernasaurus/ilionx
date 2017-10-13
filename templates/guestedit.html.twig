@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %}
+{% block title %}
+Gast bewerken
+{% endblock %}
+{% block navigation %}
+{{ parent() }}
+{% endblock %}
+{% block content %}
+<form action="#" method="post">
+    {{ form_widget(form)}}
+</form>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title '' %} - Bruiloft Gasten</title>
+
+    <link type="text/css" href="{{ asset('WeddingGuests/web/css/main.css') }}" rel="stylesheet"/>
+    <link type="text/css" href="{{ asset('//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css') }}"
+          rel="stylesheet"></link>
+    <script src="{{ asset('https://use.fontawesome.com/8e9d51b9bc.js') }}"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css') }}">
+
+    <!-- jQuery library -->
+    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js') }}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/WeddingGuests/templates/jquery.js') }}"></script>
+</head>
+<body>
+{% block navigation %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Wedding Guests</a>
+            </div>
+            <ul class="nav navbar-nav">
+                {% for item in navigation %}
+                    <li><a href="{{ item.href }}" class="{{ item.class }}">{{ item.caption }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+<div class="container">
+{% block content %}{% endblock %}
+</div>
+</body>
+</html>

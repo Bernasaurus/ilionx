@@ -1,0 +1,37 @@
+{% extends "layout.html.twig" %}
+{% block title %}
+    Gasten inzien
+{% endblock %}
+{% block navigation %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <table id="guestOverview" class="table-striped table" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="guestFirstName">Voornaam</th>
+                <th class="guestLastName">Achternaam</th>
+                <th class="guestEdit">Bewerken</th>
+                <th class="guestDelete">Verwijderen</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="guestFirstName">Voornaam</th>
+                <th class="guestLastName">Achternaam</th>
+                <th class="guestEdit">Bewerken</th>
+                <th class="guestDelete">Verwijderen</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for key,guest in guests %}
+                <tr>
+                    <td class="guestFirstName">{{ guest.firstName }}</td>
+                    <td class="guestLastName">{{ guest.lastName }}</td>
+                    <td class="guestEdit"><a href="/guest/edit/{{ guest.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                    <td class="guestDelete"><a href="/guest/delete/{{ guest.id }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
