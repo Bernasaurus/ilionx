@@ -9,7 +9,9 @@
 namespace WeddingGuests\Entity;
 
 
-class Guest
+use WeddingGuests\Classes\GuestType;
+
+abstract class Guest
 {
     /** @var  int */
     protected $id;
@@ -65,4 +67,7 @@ class Guest
     {
         $this->lastName = $lastName;
     }
+
+    /** @return GuestType */
+    abstract public function getType();
 }

@@ -8,14 +8,19 @@
 
 namespace WeddingGuests\Controller;
 
-use Doctrine\DBAL\Schema\Table;
 use Silex\Application;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use WeddingGuests\Entity\Guest;
+use WeddingGuests\Entity\AfternoonGuest;
+use WeddingGuests\Entity\DayGuest;
+use WeddingGuests\Entity\EveningGuest;
+use WeddingGuests\Classes\Evening;
+use WeddingGuests\Classes\Afternoon;
+use WeddingGuests\Classes\Day;
 use WeddingGuests\Repository\GuestRepository;
 
 class GuestController
@@ -67,6 +72,13 @@ class GuestController
             ->add('lastName', TextType::class, [
                 'label' => 'Achternaam'
             ])
+            ->add('type', ChoiceType::class, [
+                'choices'  => [
+                    'Dag' => 'Day',
+                    'Middag' => 'Afternoon',
+                    'Avond' => 'Evening'
+                ]
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Opslaan',
             ])
@@ -98,8 +110,17 @@ class GuestController
     public function saveGuestData($form, Application $app, array $guestData = null)
     {
         $data = $form->getData();
-
-        $guest = new Guest();
+        switch ($data['type']) {
+            case 'Evening':
+                $guest = new EveningGuest(new Evening());
+                break;
+            case 'Afternoon':
+                $guest = new AfternoonGuest(new Afternoon());
+                break;
+            default:
+                $guest = new DayGuest(new Day());
+                break;
+        }
         if ($guestData !== null) {
             $guest->setId($guestData['id']);
         }
@@ -159,7 +180,7 @@ class GuestController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteGuest(Application $app, $id) {
-        $guest = new Guest();
+        $guest = new DayGuest(new Day());
         $guest->setId($id);
         $this->guestRepository->delete($guest);
         return $app->redirect('/guest/list');

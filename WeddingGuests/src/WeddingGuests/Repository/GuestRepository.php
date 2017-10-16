@@ -2,6 +2,12 @@
 
 namespace WeddingGuests\Repository;
 use Doctrine\DBAL\Connection;
+use WeddingGuests\Classes\Afternoon;
+use WeddingGuests\Classes\Day;
+use WeddingGuests\Classes\Evening;
+use WeddingGuests\Entity\AfternoonGuest;
+use WeddingGuests\Entity\DayGuest;
+use WeddingGuests\Entity\EveningGuest;
 use WeddingGuests\Entity\Guest;
 
 /**
@@ -28,7 +34,8 @@ class GuestRepository
         $guestData = array(
             'id' => $guest->getId(),
             'firstName' => $guest->getFirstName(),
-            'lastName' => $guest->getLastName()
+            'lastName' => $guest->getLastName(),
+            'type' => $guest->getType()->getType()
         );
 
         if ($guest->getId()) {
@@ -99,10 +106,20 @@ class GuestRepository
      */
     protected function buildGuest($guestData)
     {
-        $artist = new Guest();
-        $artist->setId($guestData['id']);
-        $artist->setFirstName($guestData['firstName']);
-        $artist->setLastName($guestData['lastName']);
+        switch ($guestData['type']) {
+            case 'Evening':
+                $guest = new EveningGuest(new Evening());
+                break;
+            case 'Afternoon':
+                $guest = new AfternoonGuest(new Afternoon());
+                break;
+            default:
+                $guest = new DayGuest(new Day());
+                break;
+        }
+        $guest->setId($guestData['id']);
+        $guest->setFirstName($guestData['firstName']);
+        $guest->setLastName($guestData['lastName']);
         return $guestData;
     }
 }
